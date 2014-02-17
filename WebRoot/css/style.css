@@ -1,0 +1,104 @@
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6,
+p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, 
+img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,
+dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, 
+tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, menu, nav, output,
+ruby, section, summary,time, mark, audio, video {
+margin: 0;padding: 0;border: 0;font-size: 100%;font: inherit;vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+display: block;}
+body {line-height:1;background:#C5C8CF url(/images/bg1.png);}
+ol, ul {list-style: none;}
+blockquote, q {quotes: none;}
+blockquote:before, blockquote:after,
+q:before, q:after {content: '';content: none;}table {border-collapse: collapse;border-spacing: 0;}
+.yahei{ font-family:Microsoft YaHei;}
+
+a{text-decoration:none;color:#333;}
+.fl{float:left}
+.clear:after{clear:both; content:'.' height:0; visibility:hidden; diplay:block;}
+.clear{zoom:1;clear:both;}
+
+.wrap{ width:1050px; margin:0 auto; }
+.banner{height:85px;background:url(/images/bg2.png); width:1024px; float:left; display:inline; margin-left:13px;}
+.banner .inner{height:85px;background:url(/images/header.png) no-repeat; margin-left:13px;}
+.header{height:144px;background:url(/images/bg2.png); width:1024px; margin-left:13px;}
+
+.bleft{width:198px;}
+.#bcenter{width:633px;}
+.bright{width:192px;}
+.main{ width:1050px;  float:left; display:inline; background:url(/images/Cbg.png) repeat-y;}
+#logo{padding-top:4px; float:left; display:inline;}
+#logo h1 a{margin:0 auto;display:block;width:147px;height:77px;text-indent:-1000px;overflow:hidden;}
+#logo h2{text-align:center;font-weight:bold;padding:5px;}
+
+.toobar{height:80px;margin-top:2px;background:url(/images/toobar_bg.png) no-repeat}
+.toobar .tbutton{margin:0 10px;margin-top:20px;float:left;background:url(/images/tbutton.png) no-repeat;}
+.toobar .tbutton:hover{background-image:url(/images/tbutton_h.png); float:left; display:inline;}
+.toobar .tbutton.active{background-image:url(/images/tbutton_a.png)}
+
+.toobar .tbutton a{display:block;width:137px;height:39px;line-height:39px;text-align:center;text-indent:10px;font-weight:bold;color:#fff;background:url(/images/publish.png) no-repeat 10px 10px;}
+.toobar a.verify{background-image:url(/images/verify.png);}
+.toobar a.safety{background-image:url(/images/safety.png);}
+
+.toobar .app{float:left;display:block;width:70px;margin:20px 0;padding-top:50px;background:url(/images/icon.png) no-repeat 50%	top;text-align: center;}
+
+.user{padding-top:18px; float:left; display:inline;}
+.user .uname{width:100%;text-align:center;}
+.user .logout{margin-left:20px;display:block;width:104px;height:32px;line-height:32px;background:url(/images/icon_logout.png);text-decoration:none;color:#333;font-weight:bold;text-align:center;}
+.user .logout:hover{background:url(/images/icon_logout_press.png);}
+
+.center{background:url(/images/bg2.png);border-bottom:1px solid #CBCDD4;padding-bottom:10px; width:1024px; margin-left:13px;}
+.content{background:#fff;height:680px;}
+
+#menu li{background:url(/images/li.png);}
+#menu li:hover{background:url(/images/li_hover.png)}
+#menu li.active{background:url(/images/li_active.png)}
+#menu li.active a{color:#fff}
+
+#menu li a{display:block;height:63px;line-height:63px;width:198px;text-align:center;font-weight:bold;background:url(/images/onway.png) no-repeat 10px 12px;}
+
+#menu li.active .onway{background-image:url(/images/onway_a.png)}
+
+#menu li .pending{background-image:url(/images/pending.png)}
+#menu li.active .pending{background-image:url(/images/pending_a.png)}
+
+#menu li .cars{background-image:url(/images/cars.png)}
+#menu li.active .cars{background-image:url(/images/cars_a.png)}
+
+#menu li .history{background-image:url(/images/history.png)}
+#menu li.history .cars{background-image:url(/images/history_a.png)}
+
+#menu li .account{background-image:url(/images/account.png)}
+#menu li.active .account{background-image:url(/images/account_a.png)}
+
+#menu li .info{background-image:url(/images/info.png)}
+#menu li.active .info{background-image:url(/images/info_a.png)}
+
+#menu li .other{background-image:url(/images/other.png)}
+#menu li.active .other{background-image:url(/images/other_a.png)}
+
+.ads .contact{background:#878787;width:173px;height:156px;margin:0 auto;}
+.ads .adv{margin:0 auto;margin-top:10px;display:block;width:173px;height:476px;background:url(/images/adv.png)}
+
+.footer{text-align:center;height:60px;line-height:60px;background:url(/images/bg2.png);border-top:1px solid #ECECEC; width:1024px; margin-left:13px;}
+.footeryy{ width:1050px; height:13px; float:left; display:inline; background:url(/images/footyy.png) no-repeat;}
+
+.mainbox{
+    overflow:hidden;
+    position:relative;
+}
+.flashbox{
+   overflow:hidden;
+    position:relative;
+}
+.imagebox{
+    text-align:right;position:relative;z-index:999;
+}
+
+.bitdiv{display:inline-block;width:18px;height:18px;margin:0 10px 10px 0px;cursor:pointer;float:right;}
+.defimg{background-image:url(/images/02.png)}
+.curimg{background-image:url(/images/01.png)}

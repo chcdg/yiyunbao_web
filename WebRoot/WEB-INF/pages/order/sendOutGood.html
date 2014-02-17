@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>易运宝--发货</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0.5,maximum-scale=2.0,user-scalable=yes">
+    <meta http-equiv="content-type" content="multipart/form-data; charset=UTF-8">
+    <script type="text/javascript" src="/js/my97/My97DatePicker/WdatePicker.js"></script>
+	
+  	<link rel="stylesheet" href="/css/weixin/style.css" type="text/css"></link>
+ 	<script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+ 	<style type="text/css">
+ 		body{width:460px;height:680px;margin:0 auto;}
+ 		.blue{background:#2490f5;}
+ 		.input_button1{background: url(/images/weixin/N11.png) no-repeat;font-size:1.2em;border:0;
+	  			font-weight: bold;width:6.5em;height:2.3em;font-family:Microsoft YaHei;}
+ 	</style>
+ </head>
+  		
+  <body>
+  	<div style="width:100%;">
+  	<div class="top"></div>
+  	<form method="post" action="/order/weixinDoPublishOrder" enctype="multipart/form-data" target="iframe">
+  		<iframe name="ifram" style="display: none;" src="javascript:void(0);"></iframe>
+	  	<div class="layout">
+	  		<div class="line">
+		  		　　　出发地：
+		  		<input type="button" value="省" class="input_area" id="start_province" />
+		  		<input type="button" value="市" class="input_area" id="start_city"/><br>
+		  		<label id="startArea_error"  ></label>
+		  	</div>
+		  	<div id="area" style="width:400px;border:1px solid #ccc;display:none;">
+		  	</div>
+		  	<div class="line">
+		  		　　　目的地：
+		  		<input type="button" value="省" class="input_area" id="end_province"/>
+		  		<input type="button" value="市" class="input_area" id="end_city"/><br>
+		  		<label id="endArea_error" ></label>
+		  	</div>
+		  	<div id="area1" style="width:400px;border:1px solid #ccc;display:none;"></div>
+		  	<div class="line">
+		  		　　货源名称：
+		  		<input type="text" size="23em" name="cargo_desc" id="cargo_desc"/><br>
+		  		<label id="cargoName_error" ></label>
+		  	</div>
+		  	<div class="line">
+		  		　　货源类型：
+		  		<select class="select" name="cargo_type" id="cargoType" >
+		  		</select>
+		  	</div>
+	  	</div>
+	  	<div onclick="selectBlank()" style="background: #3ec3f0;height:30px;margin-top:10px;line-height:30px;text-align: center;">
+	  		打开 发货详情（选填）
+	  	</div>
+	  	<div class="layout" id="selectBlanks" style="border:1px solid #ccc;border-radius:5px;margin-top:1em;padding-bottom: 10px;display: none;" >
+	  		<div class="line">
+	  			　　运输方式：
+	  			<input id="ftl" name="ship_type" type="button" value="整车" class="input_button" onclick="shipType_select(this)"/>
+	  			<input id="lcl" name="ship_type" type="button" value="零担" class="input_button" onclick="shipType_select(this)"/>
+	  		</div>
+	  		<div class="line">
+	  			　　体积重量：
+	  			<input type="text" size="23em" name="cargo_number" id="cargo_number"/>
+	  			<input type="button" name="cargo_unit" value="吨" id="ton" class="input_button blue" onclick="unitCheck(this)"/>
+	  			<input type="button" name="cargo_unit" value="方" id="square" class="input_button" onclick="unitCheck(this)"/>
+	  			<input type="button" name="cargo_unit" value="车" id="car" class="input_button" onclick="unitCheck(this)"/>
+	  			<br><label id="cargo_number_error" ></label>
+	  		</div>
+	  		<div class="line">
+	  			　　运输价格：
+	  			<input type="text" name="unit_price" size="23em" id="unit_price"/>
+	  			<label id="label_price">吨/元</label>
+	  			<br><label id="unit_price_error" ></label>
+	  		</div>
+	  		<div class="line">
+	  			　　　　车长：
+	  			<input type="text" name="car_length" size="23em" id="car_length"/>
+	  			<label>米</label><br>
+	  			<label id="car_length_error" ></label>
+	  		</div >
+	  		<div class="line">
+	  			　　　　车型：
+	  			<select class="select" id="carType" name="car_type">
+		  		</select>
+	  		</div>
+	  		<div class="line">
+	  			　　装车时间：
+	  			<input type="text" id="loading_time" name="loading_time" class="Wdate" size="23em"/>
+	  		</div>
+	  		<div class="line">
+	  			　　货物照片：<input type="file" size="10em" id="cargo_photo1" name="cargo_photo1"/>
+	  		</div>
+	  		<div class="line">
+	  			　　　保证金：
+	  			<input type="text" name="user_bond" id="user_bond" size="23em" />
+	  			<label>元<br><span style="color:blue;font-size:12px;padding-left:120px;">（当前余额..元）</span></label>
+	  			<br>
+	  			<label id="user_bond_error" ></label>
+	  		</div>
+	  		<div class="line">
+	  			　　货单说明：
+	  			<textarea rows="5" cols="20" id="cargo_remark"></textarea><br>
+	  			<p style="color:blue;font-size:12px;margin-left:30px;">(*温馨提示，货单说明信息越完整，越容易获得车主和司机的信任！)</p>
+	  		</div>
+	  	</div>
+	  	<div class="layout">
+	  		<div class="line">
+	  			　　　联系人：
+	  			<input type="text"  name="cargo_user_name" id="cargo_user_name" size="23em"/>
+	  			<br><label id="cargo_user_name_error" ></label>
+	  		</div>
+	  		<div class="line">
+	  			　　联系手机：
+	  			<input type="text" name="cargo_user_phone" id="cargo_user_phone" size="23em"/>
+	  			<br><label id="cargo_user_phone_error" ></label>
+	  		</div>
+	  		<div class="line">
+	  			货单有效时间：
+	  			<input type="text" name="day" size="3em" id="day"/>
+	  			<label>天</label>
+	  			<input type="text" name="hour" size="3em" id="hour"/>
+	  			<label>小时</label>
+	  			<br>
+	  			<label id="day_error" ></label>
+	  		</div >
+	  	</div>
+	  	<div style="width:100%;text-align:center;margin-top:1em;margin-bottom: 2em">
+	  		<input type="submit" value="发布货源" class="input_button1" id="submit"/>
+	  		<input type="reset" value="取消" class="input_button1" onclick="cancel()"/>
+	  	</div>
+	  	<div style="height:1em;"></div>
+  	</form>
+  	</div>
+  	<script type="text/javascript">
+  		$(function(){
+  			$.post("/dict/getAllCargoType",function(data){
+  				data = JSON.parse(data);
+  				for(var i = 0;i<data.length;i++){
+	  				var option = $("<option></option>");
+	  				option.val(data[i].id).html(data[i]["name"]);
+	  				$("#cargoType").append(option);
+  				}
+  			});
+  			$.post("/dict/getAllCarType",{"type":"car_type"},function(data){
+  				data = JSON.parse(data);
+  				for(var i = 0;i<data.length;i++){
+	  				var option = $("<option></option>");
+	  				option.val(data[i].id).html(data[i]["name"]);
+	  				$("#carType").append(option);
+  				}
+  			});
+  		});
+  		$("#loading_time").click(function() {
+					WdatePicker({
+						readOnly:true,
+						minDate:'%y-%M-%d',
+						dateFmt:"yyyy-MM-dd HH:mm:ss"
+					});
+				});
+		var start_province;
+  		$("#start_province").click(function(){
+  			if($("#area").css("display") != "none"){
+  				return;
+  			}
+  			start_province = $("#start_province").val();
+  			areaShow("#start_province",$("#area"),0,"start_province");
+  		});
+  		$("#start_city").click(function(){
+  			if($("#area").css("display") != "none"){
+  				return;
+  			}
+  			if($("#start_province").val() != "省" ){
+  				areaShow("#start_city",$("#area"),$("#start_province").attr("name"));
+  			}
+  		});
+  		var end_province;
+  		$("#end_province").click(function(){
+  			if($("#area1").css("display") != "none"){
+  				return;
+  			}
+  			end_province = $("#end_province").val();
+  			areaShow("#end_province",$("#area1"),0,"end_province");
+  		});
+  		$("#end_city").click(function(){
+  			if($("#area1").css("display") != "none"){
+  				return;
+  			}
+  			areaShow("#end_city",$("#area1"),$("#end_province").attr("name"));
+  		});
+  		function areaShow(area,div,pid,type){
+  			div.html("");
+  			div.show(500);
+  			$.ajax({url:"/dict/getArea",
+  					data:{"id":pid},
+  					type:"post",
+  					dataType:"json",
+  					success:function(data){
+  								var closeDiv = $("<div></div>");
+  								closeDiv.css({"height":"20px","background":"blue","text-align":"right"});
+  								var close = $("<a></a>");
+  								close.attr({"href":""});
+  								close.click(function(){$(this).parent().parent().hide();return false;});
+  								close.html("关闭");
+  								closeDiv.append(close);
+  								div.append(closeDiv);
+				  				for(var i = 0;i<data.length;i++){
+				  					var span = $("<span></span>");
+				  					span.html(data[i].short_name);
+				  					span.attr({"id":data[i].id});
+				  					span.css({"float":"left","padding":"10px"});
+				  					span.bind("click",function(){
+				  						$(area).val($(this).html());
+				  						$(area).attr({"name":$(this).attr("id")});
+				  						if(type == "start_province"){
+					  						if(start_province != $(this).html()){
+					  							$("#start_city").val("市");
+					  							$("#start_city").attr({"name":""});
+					  						}
+				  						}
+				  						if(type == "end_province"){
+				  							if(end_province != $(this).html()){
+					  							$("#end_city").val("市");
+					  							$("#end_city").attr({"name":""});
+					  						}
+				  						}
+				  						div.hide(500);
+				  					})
+				  					div.append(span);
+				  				}
+				  				var clear = $("<div></div>");
+					  			clear.css({"clear":"both"});
+					  			div.append(clear);
+				  			}
+  					});
+  			
+  		}
+  		function close(div){
+  			alert(div);
+  		}
+  		function selectBlank(){
+  			$("#selectBlanks").toggle(500);
+  		}
+  		function shipType_select(s){
+  			$(s).toggleClass("blue");
+  			if($(s).attr("id") == "ftl"){
+  				$("#lcl").removeClass("blue");
+  			}else{
+  				$("#ftl").removeClass("blue");
+  			}
+  		}
+  		function unitCheck(s){
+  			//因为单位是必须选中一个的，所以如果点击的那个单位按钮是处于选中状态，那么就不用做后面的事情了
+  			if($(s).hasClass("blue")){
+  				return;
+  			}
+  			$(s).toggleClass("blue");
+  			var v = $("#label_price");
+  			if($(s).attr("id") == "ton"){
+  				$("#square").removeClass("blue");
+  				$("#car").removeClass("blue");
+  				v.text("吨/元");
+  			}else if($(s).attr("id") == "square"){
+  				$("#ton").removeClass("blue");
+  				$("#car").removeClass("blue");
+  				v.text("方/元");
+  			}else{
+  				$("#ton").removeClass("blue");
+  				$("#square").removeClass("blue");
+  				v.text("车/元");
+  			}
+  		}
+				//验证成功提交
+  			$("form").submit(function(){
+  				//event.preventDefault();
+  				if(!vilidate()){
+  					return false;
+  				}
+	  			var vidiTime = 0;
+	  			if($("#day").val().trim() != "" ){
+	  				vidiTime = parseInt($("#day").val().trim())*24*60*60*1000;
+	  			}
+	  			if($("#hour").val().trim() != ""){
+	  				vidiTime = vidiTime+(parseInt($("#hour").val().trim())*60*60*1000);
+	  			}
+	  			if(vidiTime != 0){
+	  				var now = (new Date()).getTime(); 
+	  				vidiTime += now;
+	  			}
+	  			/* if($("#carType").val() == null && $("#carType").val() == ""){
+	  				$("#carType").val("0");
+	  			} */
+	  			
+	  			var data = "?start_province_id="+$("#start_province").attr("name")+"";
+	  			data += "&start_city_id="+$("#start_city").attr("name");
+	  			data += "&end_province_id="+$("#end_province").attr("name");
+	  			data += "&end_city_id="+$("#end_city").attr("name");
+	  			data += "&cargo_unit="+getCargoUnit()+"";
+	  			data += "&ship_type="+getShipType()+"";
+	  			//data += "&car_type="+carType+"";
+	  			data += "&validate_time="+vidiTime+"";
+	  			//data += "&cargo_photo1="+mini.get("cargo_photo1").getText();
+	  			/* data += "&cargo_desc="+$("#cargo_desc").val();
+	  			data += "&cargo_user_name="+$("#cargo_user_name").val();
+	  			data += "&cargo_user_phone="+$("#cargo_user_phone").val();
+	  			data += "&cargo_type="+$("#cargoType").val();
+	  			data += "&car_length="+$("#car_length").val();
+	  			data += "&cargo_number="+$("#cargo_number").val();
+	  			data += "&unit_price="+$("#unit_price").val();
+	  			data += "&cargo_remark="+$("#cargo_remark").val();
+	  			data += "&user_bond="+$("#user_bond").val();
+	  			data += "&cargo_photo1="+$("#cargo_photo1").val();
+	  			data += "&loading_time="+$("#loading_time").val(); */
+	  			$("form").attr({"action":"/order/weixinDoPublishOrder"+data});
+	  			return true;
+	  			
+  			});
+  			function vilidate(){
+  				var start_province = $("#start_province");
+	  			if(start_province.val() == "省"){
+	  				$("#startArea_error").html("请选择出发省市");
+	  				$("#startArea_error").addClass("error");
+	  				return false;
+	  			}else{
+	  				$("#startArea_error").html("");
+	  				$("#startArea_error").removeClass("error");
+	  			}
+	  			if($("#start_city").val() == "市"){
+	  				$("#startArea_error").html("请选择出发的城市");
+	  				$("#startArea_error").addClass("error");
+	  				return false;
+	  			}else{
+	  				$("#startArea_error").html("");
+	  				$("#startArea_error").removeClass("error");
+	  			}
+	  			if($("#end_province").val() == "省"){
+	  				$("#endArea_error").html("请选择目标的省市");
+	  				$("#endArea_error").addClass("error");
+	  				return false;
+	  			}else{
+	  				$("#endArea_error").html("");
+	  				$("#endArea_error").removeClass("error");
+	  			}
+	  			if($("#end_city").val() == "市"){
+	  				$("#endArea_error").html("请选择目标的城市");
+	  				$("#endArea_error").addClass("error");
+	  				return false;
+	  			}else{
+	  				$("#endArea_error").html("");
+	  				$("#endArea_error").removeClass("error");
+	  			}
+	  			if($("#cargo_desc").val() == "" || $("#cargo_desc").val() == null){
+	  				$("#cargoName_error").html("请输入货源名称");
+	  				$("#cargoName_error").addClass("error");
+	  				return false;
+	  			}else{
+	  				$("#cargoName_error").html("");
+	  				$("#cargoName_error").removeClass("error");
+	  			}
+	  			var value = $("#cargo_number").val().trim();
+	  			if(value != ""){
+	  				if(isNaN(value)){
+	  					$("#cargo_number_error").html("请输入数字");
+	  					$("#cargo_number_error").addClass("error");
+	  					return false;
+	  				}else if(parseFloat(value)<0){
+	  					$("#cargo_number_error").html("请输入大于0的有效数字");
+	  					$("#cargo_number_error").addClass("error");
+	  					return false;
+	  				}else{
+	  					$("#cargo_number_error").html("");
+	  					$("#cargo_number_error").removeClass("error");
+	  				}
+	  			}
+	  			value = $("#unit_price").val().trim();
+	  			if(value != ""){
+	  				if(isNaN(value)){
+	  					$("#unit_price_error").html("请输入数字");
+	  					$("#unit_price_error").addClass("error");
+	  					return false;
+	  				}else if(parseFloat(value)<0){
+	  					$("#unit_price_error").html("请输入大于0的有效数字");
+	  					$("#unit_price_error").addClass("error");
+	  					return false;
+	  				}else{
+	  					$("#unit_price_error").html("");
+	  					$("#unit_price_error").removeClass("error");
+	  				}
+	  			}
+	  			value = $("#car_length").val().trim();
+	  			if(value != ""){
+	  				if(isNaN(value)){
+	  					$("#car_length_error").html("请输入数字");
+	  					$("#car_length_error").addClass("error");
+	  					return false;
+	  				}else if(parseFloat(value)<0){
+	  					$("#car_length_error").html("请输入大于0的有效数字");
+	  					$("#car_length_error").addClass("error");
+	  					return false;
+	  				}else{
+	  					$("#car_length_error").html("");
+	  					$("#car_length_error").removeClass("error");
+	  				}
+	  			}
+	  			value = $("#user_bond").val().trim();
+	  			if(value != ""){
+	  				if(isNaN(value)){
+	  					$("#user_bond_error").html("请输入数字");
+	  					$("#user_bond_error").addClass("error");
+	  					return false;
+	  				}else if(parseFloat(value)<0){
+	  					$("#user_bond_error").html("请输入大于0的有效数字");
+	  					$("#user_bond_error").addClass("error");
+	  					return false;
+	  				}else{
+	  					$("#user_bond_error").html("");
+	  				}
+	  			}
+	  			value = $("#cargo_user_name").val().trim();
+	  			if(value == ""){
+	  				$("#cargo_user_name_error").html("请输入联系人！");
+	  				$("#cargo_user_name_error").addClass("error");
+	  				return false;
+	  			}else{
+	  				$("#cargo_user_name_error").html("");
+	  				$("#cargo_user_name_error").removeClass("error");
+	  			}
+	  			value = $("#cargo_user_phone").val().trim();
+	  			if(value != ""){
+	  				var reg = /^((13[0-9])|(15[0-9])|(18[0-9]))\d{8}$/;
+	  				if(!reg.test(value)){
+	  					$("#cargo_user_phone_error").html("请输入有效的手机号码！");
+	  					$("#cargo_user_phone_error").addClass("error");
+	  					return false;
+	  				}else{
+	  					$("#cargo_user_phone_error").html("");
+	  					$("#cargo_user_phone_error").removeClass("error");
+	  				}
+	  			}else{
+	  				$("#cargo_user_phone_error").html("请输入联系手机号码！");
+	  				$("#cargo_user_phone_error").addClass("error");
+	  				return false;
+	  			}
+	  			
+	  			value = $("#day").val().trim();
+	  			if(value != ""){
+	  				var reg = /^[0-9]*[1-9][0-9]*$/;
+	  				if(!reg.test(value)){
+	  					$("#day_error").html("请输入正整数作为有效天数");
+	  					$("#day_error").addClass("error");
+	  					return false;
+	  				}else{
+	  					$("#day_error").html("");
+	  					$("#day_error").removeClass("error");
+	  				}
+	  			}
+	  			value = $("#hour").val().trim();
+	  			if(value != ""){
+	  				var reg = /^([0-1]?\d|2[0-3])$/;
+	  				if(!reg.test(value)){
+	  					$("#day_error").html("请输入有效的小时数");
+	  					$("#day_error").addClass("error");
+	  					return false;
+	  				}else{
+	  					$("#day_error").html("");
+	  					$("#day_error").removeClass("error");
+	  				}
+	  			}
+	  			
+	  			return true;
+  			}
+  			//根据选择的运输方式按钮，获取此方式代表的id
+  			function getShipType(){
+  				var shipType = "";
+	  			if($("#ftl").hasClass("blue")){
+	  				shipType = "整车";
+	  			}else if($("#lcl").hasClass("blue")){
+	  				shipType = "零担";
+	  			}
+	  			var shipTypeId = 0;
+	  			$.ajax({
+	  				url:"/dict/getByTypeAndName",
+	  				data:{"type":"ship_type","name":shipType},
+	  				type:"post",
+	  				dataType:"json",
+	  				async:false,
+	  				success:
+		  				function(data){
+			  				if(data != null){
+			  					shipTypeId = data.id;
+			  				}
+			  			}
+	  			});
+	  			return shipTypeId;
+  			}
+  			function getCargoUnit(){
+  				var unit = 0;
+  				if($("#square").hasClass("blue")){
+  					unit = 1;
+  				}else if($("#car").hasClass("blue")){
+  					unit = 2;
+  				}
+  				return unit;
+  			}
+  			
+  			function cancel(){
+  				$("#ftl").removeClass("blue");
+  				$("#lcl").removeClass("blue");
+  				$("#start_province").val("省");
+  				$("#start_province").attr({"name":""});
+  				$("#start_city").val("市");
+  				$("#start_city").attr({"name":""});
+  				$("#end_province").val("省");
+  				$("#end_province").attr({"name":""});
+  				$("#end_city").val("市");
+  				$("#end_city").attr({"name":""});
+  				$("#square").removeClass("blue");
+  				$("#car").removeClass("blue");
+  				$("#ton").addClass("blue");
+  				mini.get("cargo_photo1").setText("");
+  			}
+  	</script>
+  </body>
+</html>

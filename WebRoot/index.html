@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>易运宝</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="login/css/style.css" rel="stylesheet">
+<link rel="stylesheet" href="/js/jBox/Skins/Blue/jbox.css" type="text/css"/>
+<link rel="stylesheet" href="/css/validation/validationEngine.jquery.css" type="text/css"/>
+<SCRIPT type="text/javascript" src="/js/jquery-1.6.2.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="login/js/jquery.KinSlideshow-1.2.1.min.js"></SCRIPT>
+<script type="text/javascript" src="/js/jBox/jquery.jBox-2.3.min.js"></script>
+<script type="text/javascript" src="/js/jBox/i18n/jquery.jBox-zh-CN.js"></script>
+<script type="text/javascript" src="/js/jquery.validationEngine-zh_CN.js"></script>
+<script type="text/javascript" src="/js/jquery.validationEngine.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+
+<SCRIPT type=text/javascript>
+function login(){
+		if($("#form1").validationEngine('validate')){
+			var phone = $("#phone").val();
+			var password = $("#password").val();
+			$.post("/doLogin",
+	  		{
+	  		  phone:phone,
+	 		  password:password
+	 		 },
+	 		 function(response,status){
+	 		 	if(!response.success){
+	 		 		$.jBox.error(response.data,'登录失败');
+	 		 	}
+	 		 	else{
+	 		 		window.location.href="/main";
+	 		 	}
+	 		 });
+ 		 }
+	}
+	
+	function fogetPWD(){
+		var html = "<div style='padding:10px;'>输入注册手机号：<input type='text' id='forgetPhone' name='forgetPhone' /></div>";
+		var submit = function (v, h, f) {
+   		 if (f.forgetPhone == '') {
+    		    $.jBox.tip("请输入注册手机号。", 'error', { focusId: "forgetPhone" }); // 关闭设置 yourname 为焦点
+   		    	 return false;
+   		 }
+   		 var phone = $("#forgetPhone").val();
+  		  $.post("/forgetPWD",
+	  		{
+	  		  phone:phone
+	 		 },
+	 		 function(response,status){
+	 		 	if(!response.success){
+	 		 		$.jBox.error(response.data,'失败');
+	 		 	}
+	 		 	else{
+	 		 		$.jBox.success('新的密码已经发送到您手机，请用新密码登录:' + response.data,'成功');
+	 		 	}
+	 		 });
+	 		 
+  		  return true;
+		};
+		$.jBox(html, { title: "忘记密码", submit: submit });
+	}
+	
+$(function(){
+	$("#form1").validationEngine();
+	 
+	$("#KinSlideshow").KinSlideshow({
+			moveStyle:"down",
+			intervalTime:8,
+			mouseEvent:"mouseover",
+			titleFont:{TitleFont_size:14,TitleFont_color:"#FFF"}
+	});
+})
+</SCRIPT>
+<script>
+	
+	
+</script>
+</head>
+<body >
+<div class="wrap">
+  <div class="mainLogin">
+    <!--头部开始-->
+    <div class="loginHead"> <a href="#" class="loginLogo"></a>
+      <div class="loginFontL yahei size18"><font class="left black5">易运宝你的运货好帮手！</font><font class="right" style="margin-right:150px;">没有账号？请 <a href="/reg" class="blue"> 注册</a></font></div>
+    </div>
+    <div class="loginHeadhr"></div>
+    <p>
+      <!--头部结束-->
+      <!--广告图开始-->
+    <div class="loginBanner">
+      <div class="loginBannerM" id="KinSlideshow"> <a href="#"><img src="/images/pic/banner11.jpg"></a><a href="#"><img src="/images/pic/banner11.jpg"></a><a href="#"><img src="/images/pic/banner11.jpg"></a>
+
+      </div>
+    </div>
+    <!--广告图结束-->
+    <!--登录功能开始-->
+    <div class="loginBt"> 
+    <form id="form1" action="">
+    <span class="loginBtFrom" style="margin-top:83px;"> 
+    <font class="yahei size18 black3 left">手机号：</font>
+      <input id="phone" name="phone" type="text" class="loginBtFromB validate[required,custom[number]]" >
+      </span>
+      <span class="loginBtFrom"> <font class="yahei size18 black3 left">密  &nbsp;&nbsp;码：</font>
+      <input id="password" name="password" type="password" class="loginBtFromB validate[required,custom[onlyLetterNumber,minSize[6]]]">
+      </span> 
+      <a href="/" class="arrows size18 yahei">进入体验</a>
+      <input type="button" class="loginBtbutton" onclick="login()">
+      <a href="javascript:fogetPWD()" class="loginBtPw size18 yahei">忘记密码？</a> 
+      </form>
+    </div>
+    <!--登录功能结束-->
+    <!--常见问题开始-->
+    <div class="loginFont size18 yahei">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="42%">支持服务 <font class="black9">法定工作日（9:00-17:30）<br>
+            </font> <font class="black9">技术服务：400  80088820</font></td>
+          <td width="27%"> 常见问题<br>
+            <a href="#" class="black9">车辆监控相关问题</a><br>
+            <a href="#" class="black9">使用说明下载</a></td>
+          <td width="31%"><a href="#" class="black9">在线支付相关问题</a></td>
+        </tr>
+      </table>
+    </div>
+    <!--常见问题结束-->
+    <!--页脚开始-->
+    <div class="loginFoot black9 yahei size16 lheight32">©2013 易运宝 蜀ICP备13009214号 </div>
+    <!--页脚结束-->
+  </div>
+  <div class="footeryy"></div>
+</div>
+</body>
+</html>
+<!--[if IE 6]>
+	<script type="text/javascript" src="images/dd_belatedpng.js" ></script>
+	
+	<script type="text/javascript">
+	DD_belatedPNG.fix('.main,.footeryy,.logout');
+	</script>
+	<![endif]-->

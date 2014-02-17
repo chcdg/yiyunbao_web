@@ -1,0 +1,24 @@
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td ,input{ margin:0; padding:0;  outline:0; font-size:100%; vertical-align:baseline; }
+ol, ul { list-style: none; }
+
+.top{height:30px;background:#e5f3e8;height:30px;}
+.logo{ height:170px; }
+.lab{text-align:center;display:inline-block;height:30px;border:1px solid #8c8c8c;border-radius: 4px;
+	margin:10px;width:100px;}
+.form_input{width:300px;margin:0 auto;margin-top:10px;margin-bottom: 10px;}
+.input{height:20px;}
+.input_area{background: url(/images/weixin/area.png);width:70px;height:32px;margin-left:5px;border:0;}
+.layout{width:440px;margin:0 auto;}
+.line{margin-top:10px;}
+.select{width:150px;}
+.input_button{padding:5px;background: #ccc;border-radius:4px;}
+.input_button1{border:1px solid #80a8c4;background: url(/images/weixin/login.png);height:24px;padding:0 10px;border-radius:4px;}
+.orange{background: orange;}
+.error{font-size:0.8em;margin-left:2em;color: red;}
+

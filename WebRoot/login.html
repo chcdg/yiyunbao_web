@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>易运宝</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="login/css/style.css" rel="stylesheet">
+<SCRIPT type="text/javascript" src="login/js/jquery-1.4a2.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="login/js/jquery.KinSlideshow-1.2.1.min.js"></SCRIPT>
+ <SCRIPT type=text/javascript>
+$(function(){
+	$("#KinSlideshow").KinSlideshow({
+			moveStyle:"down",
+			intervalTime:8,
+			mouseEvent:"mouseover",
+			titleFont:{TitleFont_size:14,TitleFont_color:"#FFF"}
+	});
+})
+</SCRIPT>
+</head>
+<body >
+<div class="wrap">
+  <div class="mainLogin">
+    <!--头部开始-->
+    <div class="loginHead"> <a href="#" class="loginLogo"></a>
+      <div class="loginFontL yahei size18"><font class="left black5">易运宝你的运货好帮手！</font><font class="right">没有账号？请 <a href="reg.html" class="blue"> 注册</a></font></div>
+    </div>
+    <div class="loginHeadhr"></div>
+    <p>
+      <!--头部结束-->
+      <!--广告图开始-->
+    <div class="loginBanner">
+      <div class="loginBannerM" id="KinSlideshow"> <a href="#"><img src="images/pic/banner11.jpg"></a><a href="#"><img src="images/pic/banner11.jpg"></a><a href="#"><img src="images/pic/banner11.jpg"></a>
+
+      </div>
+    </div>
+    <!--广告图结束-->
+    <!--登录功能开始-->
+    <div class="loginBt"> <span class="loginBtFrom" style="margin-top:83px;"> <font class="yahei size18 black3 left">用户名：</font>
+      <input name="" type="text" class="loginBtFromB">
+      </span><span class="loginBtFrom"> <font class="yahei size18 black3 left">密  &nbsp;&nbsp;码：</font>
+      <input name="" type="text" class="loginBtFromB">
+      </span> <a href="/" class="arrows size18 yahei">进入体验</a>
+      <input name="" type="button" class="loginBtbutton" value=" " onclick="window.location='/'">
+      <a href="#" class="loginBtPw size18 yahei">忘记密码？</a> </div>
+    <!--登录功能结束-->
+    <!--常见问题开始-->
+    <div class="loginFont size18 yahei">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="42%">支持服务 <font class="black9">法定工作日（9:00-17:30）<br>
+            </font> <font class="black9">技术服务：400  80088820</font></td>
+          <td width="27%"> 常见问题<br>
+            <a href="#" class="black9">车辆监控相关问题</a><br>
+            <a href="#" class="black9">使用说明下载</a></td>
+          <td width="31%"><a href="#" class="black9">在线支付相关问题</a></td>
+        </tr>
+      </table>
+    </div>
+    <!--常见问题结束-->
+    <!--页脚开始-->
+    <div class="loginFoot black9 yahei size16 lheight32">©2013 Baidu 使用百度前必读 京ICP证030173号 </div>
+    <!--页脚结束-->
+  </div>
+  <div class="footeryy"></div>
+</div>
+</body>
+</html>
+<!--[if IE 6]>
+	<script type="text/javascript" src="images/dd_belatedpng.js" ></script>
+	
+	<script type="text/javascript">
+	DD_belatedPNG.fix('.main,.footeryy,.logout');
+	</script>
+	<![endif]-->

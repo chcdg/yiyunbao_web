@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>易运宝--登录</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link href="/login/css/style.css" rel="stylesheet">
+    <link href="/css/login/style.css" rel="stylesheet">
+    <SCRIPT type="text/javascript" src="/js/boot.js"></SCRIPT>
+	<link rel="stylesheet" href="/css/validation/validationEngine.jquery.css" type="text/css"/>
+	<link rel="stylesheet" href="/js/jBox/Skins/Blue/jbox.css" type="text/css"/>
+	<SCRIPT type="text/javascript" src="/js/jquery-1.6.2.min.js"></SCRIPT>
+	<script type="text/javascript" src="/js/jquery.validationEngine-zh_CN.js"></script>
+	<script type="text/javascript" src="/js/jquery.validationEngine.js"></script>
+	<script type="text/javascript" src="/js/jBox/jquery.jBox-2.3.min.js"></script>
+	<script type="text/javascript" src="/js/jBox/i18n/jquery.jBox-zh-CN.js"></script>
+	
+    <style type="text/css">
+    	.input
+			{
+			    border:0;
+			    height:2.3em;
+			    border-radius:4px;
+			    font-size:2em;
+			    background-color: #f8f8f8;
+			}
+		.yahei{ font-family:Microsoft YaHei;}
+		.color_tip{color:#ccc;}
+		.color_value{color:#9e9594;}
+		body{width:460px;border:1px solid #ccc;margin:0 auto;height:687px;}
+    </style>
+</head>
+  
+  <body>
+  		<div style="background: url(../../images/weixin/DT.jpg) no-repeat;height:100%;width:100%;">
+	  		<div style="text-align: center;height:25%;">
+	  			<img src="/images/weixin/LOGO.png" style="margin-top:3em;"/>
+	  		</div>
+	  		<div style="font-size:2em;font-weight: bold;color:white;margin-top:0.6em;height:9%;line-height: 2.4em;width:48%;text-align: center;letter-spacing: 0.2em;">
+	  			登录绑定
+	  		</div>
+  			<form style="text-align: center;height:35%;" id="form1">
+  				<input name="phone" id="phone" size="26em" class="input yahei color_tip validate[required,custom[number]]" value="请输入你的手机号码..." style="margin-top:0.5em" onfocus="foucs(this)" onblur="blurInput(this)">
+  				<div id="pwd">
+  					<input name="password" id="password" size="26em" class="input yahei color_tip validate[required,custom[onlyLetterNumber,minSize[6]]]" type="text" value="请输入密码..." style="margin-top:0.8em;" onfocus="foucs(this)" /><br>
+  				 </div>
+  				 <input type="button" style="background: url(/images/weixin/DLAN.png) no-repeat;
+  				 width:3.65em;height:1.3em;font-size:4em;border:0;margin-top:0.5em;font-weight: bold;" onclick="login()"
+  				 value="登 录"/><a href="javascript:fogetPWD()" style="font-size:1.5em;" >忘记密码?</a>
+  			</form>
+  			<div style="margin-top:2em;text-align: center;">
+	  			<input type="button" value="免费注册" style="background: url(/images/weixin/N11.png) no-repeat;font-size:1.8em;
+	  			font-weight: bold;width:6em;height:2em;border:0;" id="reg"/>
+	  			<input type="button" value="微信登录" style="background: url(/images/weixin/WXA.png) no-repeat;font-size:1.8em;
+	  			font-weight: bold;width:7.6em;height:3.3em;border:0;text-align: right;" id="weixinLogin"/>
+  			</div>
+  			<div style="font-size: 1.5em;color:#ccc;width:18em;margin:0 auto;">温馨提示：已有易运宝账户请登录绑定，暂无账户可免费注册或者使用微信号登录</div>
+  		</div>
+  		<script type="text/javascript">
+  			function login(){
+				if($("#form1").validationEngine('validate')){
+					var phone = $("#phone").val();
+					var password = $("#password").val();
+					
+					$.post("/doLogin",
+			  		{
+			  		  phone:phone,
+			 		  password:password
+			 		 },
+			 		 function(response,status){
+			 		 	if(!response.success){
+			 		 		$.jBox.error(response.data,'登录失败');
+			 		 	}
+			 		 	else{
+			 		 		window.location.href="/order/weixinPublishOrder";
+			 		 	}
+			 		 });
+					 }
+			}
+			
+			function createPassword(){
+				var input = $("<input></input>");
+				input.attr({id:"password",name:"password",size:"26em"});
+				input.css({marginTop:"1em"});
+				input.addClass("input").addClass("yahei");
+				return input;
+			}
+			function foucs(input){
+				if($(input).hasClass("color_tip")){
+				//如果是密码框失去焦点
+					if($(input).attr("id") == "password"){
+						$("#pwd").empty();
+						var password = createPassword();
+						password.attr({type:"password"}).addClass("color_value");
+						$("#pwd").append(password);
+						$("#password")[0].focus();
+						$("#password").blur(function(){blurInput($("#password"));}); 
+						
+					}else{
+						$(input).val("");
+						$(input).removeClass("color_tip");
+						$(input).addClass("color_value");
+					}
+				}
+			}
+			function blurInput(input){
+				if($(input).val().trim() == ""){
+					if($(input).attr("id") == "password"){
+						$("#pwd").empty();
+						var password = createPassword();
+						password.val("请输入密码...");
+						password.attr({type:"text"}).addClass("color_tip");
+						$("#pwd").append(password);
+						$("#password").focus(function(){foucs($("#password"));}); 
+					}else{
+						$(input).val("请输入你的手机号码...");
+					}
+					$(input).removeClass("color_value");
+					$(input).addClass("color_tip");
+				}
+			}
+  			function fogetPWD(){
+			var html = "<div style='padding:10px;'>输入注册手机号：<input type='text' id='forgetPhone' name='forgetPhone' /><br>输入注册公司名：<input type='text' id='forgetCompany' name='forgetCompany' /></div>";
+			var submit = function (v, h, f) {
+	   		 if (f.forgetPhone == '') {
+	    		    $.jBox.tip("请输入注册手机号。", 'error', { focusId: "forgetPhone" }); // 关闭设置 yourname 为焦点
+	   		    	 return false;
+	   		 }
+	   		 if (f.forgetCompany == '') {
+	    		    $.jBox.tip("请输入注册公司名。", 'error', { focusId: "forgetCompany" }); // 关闭设置 yourname 为焦点
+	   		    	 return false;
+	   		 }
+	   		 var phone = $("#forgetPhone").val();
+	   		 var company = $("#forgetCompany").val();
+	   		 $.jBox.tip("正在验证，请稍候...", 'loading');
+	  		  $.post("/forgetPWD",
+		  		{
+		  		  phone:phone,
+		  		  company:company
+		 		 },
+		 		 function(response,status){
+		 		 	if(!response.success){
+		 		 		$.jBox.tip(response.data);
+		 		 	}
+		 		 	else{
+		 		 		$.jBox.tip('新的密码已经发送到您手机，请用新密码登录');
+		 		 	}
+		 		 });
+		 		 
+	  		  return true;
+			};
+			$.jBox(html, { title: "忘记密码", submit: submit});
+		}
+		function login(){
+			if($("#form1").validationEngine('validate')){
+				var phone = $("#phone").val();
+				var password = $("#password").val();
+				
+				$.post("/doLogin",
+		  		{
+		  		  phone:phone,
+		 		  password:password
+		 		 },
+		 		 function(response,status){
+		 		 	if(!response.success){
+		 		 		$.jBox.error(response.data,'登录失败');
+		 		 	}
+		 		 	else{
+		 		 		window.location.href="/main";
+		 		 	}
+		 		 });
+	 		 }
+		}
+		$("#reg").click(function(){
+			location.href="/weiXinReg";
+		});
+		$("#weixinLogin").click(function(){
+			location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcd8dd0ba348bf503&redirect_uri=http://www.1yunbao.com/weixinReplenishment&response_type=code&scope=snsapi_userinfo&state=1&#wechat_redirect";
+		});
+  		</script>
+  </body>
+</html>

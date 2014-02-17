@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>微信--补充信息</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0.5,maximum-scale=1.0,user-scalable=yes">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/css/weixin/style.css" type="text/css"></link>
+    <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/js/jBox/jquery.jBox-2.3.min.js"></script>
+	<script type="text/javascript" src="/js/jBox/i18n/jquery.jBox-zh-CN.js"></script>
+	<link rel="stylesheet" href="/js/jBox/Skins/Blue/jbox.css" type="text/css"/>
+    <style type="text/css">
+    	.form_input{width:100%;margin:0 auto;margin-top:1em;margin-bottom: 1em;padding-left:1em;}
+    	.yahei{font-family:Microsoft YaHei;}
+    	.size18{font-size: 1.2em;}
+    	body{width:460px;margin:0 auto;height:680px;}
+    </style>
+  </head>
+  
+  <body>
+  	<div style="width:100%;height:100%;background-color: #e5e0ea;">
+  		<div style="background-color: #10a0f3;height:30px;margin-bottom: 30px;"></div>
+  		<form action="/weiXinDoLogin" method="post">
+  			<div style="margin:0 auto; width:332px;border:1px solid #ccc;border-radius: 4px;">
+	  			<div class="form_input">
+		  			<label class="size18 yahei">手机号：</label><input type="text" name="phone" id="phone"  size="23em" style="height:2em;"/>
+		  			<span id="phone_error"></span>
+		  		</div>
+		  		<hr/>
+		  		<div class="form_input" style="margin-bottom: 0.3em;">
+		  			<label class="size18 yahei">密　码</label>：<input type="password" name="password"  size="23em" id="password" style="height:2em;"/>
+		  			<br><span id="pwd_error"></span>
+		  		</div>
+		  		<div style="text-align: center;">
+		  			<input type="button" value="点击获取密码" onclick="getPwd()" id="btnCaptcha" style="background: url(/login/images/icon_logout.png) no-repeat;width:8.4em;height:2.8em;font-size: 0.8em;border:0;"/>
+		  			<div id="my-timer" style="padding-left:20px;display:none;">
+			        	<b id="show-time">60</b>秒后才能重新获取验证码        
+					</div>
+		  		</div>
+	  		</div>
+	  		<div style="width:170px;margin:0 auto;margin-top:20px;text-align: center;">
+	  			<input type="submit" value="完   成"  style="background: url(/login/images/tbutton.png) no-repeat;border:0;width:7.6em;height:2.6em;" />
+  			</div>
+  		</form>
+  	</div>
+  	<script type="text/javascript">
+  		var isClick = false;
+  		var phone;
+  		
+  		
+  		function valiPhone(){
+  			var reg = /^((13[0-9])|(15[0-9])|(18[0-9]))\d{8}$/;
+  			if(phone == ""){
+  				$("#phone_error").html("请补充你的手机号码！");
+  				$("#phone_error").addClass("error");
+  				return false;
+  			}else if(!reg.test(phone)){
+  				$("#phone_error").html("请输入正确的手机号码！");
+  				$("#phone_error").addClass("error");
+  				return false;
+  			}else{
+	  			$("#phone_error").html("");
+				$("#phone_error").removeClass("error");
+				return true;
+  			}
+  		}
+  		function getPwd(){
+  			phone = $("#phone").val().trim();
+  			var isPass = false;
+  			if(valiPhone()){
+  				$.ajax({
+	  				url:"/isPhoneExists",
+	  				data:{"phone":phone},
+	  				type:"post",
+	  				dataType:"json",
+	  				async:false,
+	  				success:function(data){
+	  					if(!data.success){
+	  						$("#phone_error").html(data.data);
+  							$("#phone_error").addClass("error");
+	  					}else{
+	  						isPass = true;
+	  					}
+	  				}
+	  			});
+  			
+  				if(!isPass){
+  					return false;
+  				}
+  				isClick = true;//表示手机号码已经验证通过了，并且已经发送了验证码
+	  			$.jBox.tip("正在发送密码到您的手机，请稍候...", 'loading');
+	        	$.post("/captchaPwd",
+		  		  {
+		  		  phone:phone
+		 		 },
+		 		 function(response,status){
+		 		 	$.jBox.tip(response.data);
+		 		 });
+		 		 
+		 		$("#btnCaptcha").hide();
+		 		$("#my-timer").css("display","");
+		 		var settimmer = 0;
+	        	timeID = window.setInterval(function() {
+	                    var timeCounter = $("b[id=show-time]").html();
+	                    var updateTime = eval(timeCounter)- eval(1);
+	                    $("b[id=show-time]").html(updateTime);
+	                    if(updateTime == 0){
+	                    	$("#btnCaptcha").show();
+	                    	$("#my-timer").css("display","none");
+	                    	$("#show-time").html('60');
+	                    	window.clearInterval(timeID);
+	                    }
+	                }, 1000);
+	        	}
+  		}
+  		$("form").submit(function(){
+  			if(!isClick){
+  				$("#pwd_error").html("请先获取验证码！");
+				$("#pwd_error").addClass("error");
+  				return false;
+  			}
+  			$("#phone").val(phone);
+			var pwd = $("#password").val().trim();
+			if(pwd == ""){
+				$("#pwd_error").html("填写收到的密码！如果没有收到可以点击重新获取！");
+				$("#pwd_error").addClass("error");
+				return false;
+			}else if(pwd.length != 6){
+				$("#pwd_error").html("你的验证码只能是六位长度！");
+				$("#pwd_error").addClass("error");
+				return false;
+			}else{
+				$("#pwd_error").html("");
+				$("#pwd_error").removeClass("error");
+			}
+			return true;
+  		});
+  	</script>
+  </body>
+</html>

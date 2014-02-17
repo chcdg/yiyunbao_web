@@ -1,0 +1,81 @@
+
+#contactable {
+	background-image:url(/images/lianxikefu.png) ;
+	background-repeat: no-repeat;
+	
+	color:#FFFFFF;
+	background-color:#333333;
+	cursor:pointer;
+	height:157px;
+	right:0;
+	margin-right:-25px; 
+	overflow:hidden;
+	position:fixed;
+	*position:absolute;
+	top:112px;
+	*margin-top:200px;
+	width:60px;
+	z-index:100000;
+}
+
+#contactForm {
+	background-color:gray;
+	border:0px solid #FFFFFF;
+	color:#FFFFFF;
+	height:620px;
+	right:0;
+	margin-right:-200px;
+	margin-top:-88px;
+	overflow:hidden;
+	padding-left:30px;
+	position:fixed;
+	top:200px;
+	width:150px;
+	*width:164px;
+	z-index:100000;
+}
+
+#contactForm .red {
+	color:	#F5410F;
+}
+
+#overlay {
+	background-color:#666666;
+	display:none;
+	height:100%;
+	left:0;
+	margin:0;
+	padding:0;
+	position:absolute;
+	top:0;
+	width:100%;
+	z-index:0;
+}
+.error { background-color: #EDBE9C; }
+#name.error { background-color: #EDBE9C; } 
+#email.error { background-color: #EDBE9C; }
+#comment.error { background-color: #EDBE9C; }
+
+#contactform #loading {
+	background: url(images/ajax-loader.gif) no-repeat;
+	width:55px;
+	height:55px;
+	margin: 100px auto;
+	display:none;
+}
+
+#callback {
+	font-family: georgia;
+	font-size:1.1em;
+	color: #FFF;
+	width:325px;
+	margin: 100px auto;	
+	display:none;
+}
+
+
+.holder {
+	margin:0 auto;
+	padding-top:20px;	
+}	
+	
